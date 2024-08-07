@@ -1,0 +1,108 @@
+---
+title: "azmpcfin"
+output: github_document
+---
+
+
+[eMOLT](https://erddap.emolt.net/erddap/info/index.html?page=1&itemsPerPage=1000) sata served via ERRDAP.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Requirements
+
+  + [R v4.1+](https://www.r-project.org/)
+  + [httr](https://CRAN.R-project.org/package=httr)
+  + [dplyr](https://CRAN.R-project.org/package=dplyr)
+  + [readr](https://CRAN.R-project.org/package=readr)
+  + [sf](https://CRAN.R-project.org/package=sf)
+  
+## Installation
+
+```
+remotes::install_github("BigelowLab/emolt")
+```
+
+## Initial Use
+
+The premise of this package is that data may be stored in a single location but accessed by many users. To achieve this resource-friendly goal and still simplified access for each user, we need to inform the package where the data resides.  We do this by storing the path to the data location in each user's home directory in a hidden text file, "~/.emolt".  That text file has just one line in it which contains the full path to the shared dataset.  For example, the author's contains `mnt/ecocast/coredata/emolt` which points to a shared network drive mounted on our linux platform.  
+
+When the package is first loaded (ala `library(emolt)`) the existence of the file is checked, and if missing a warning is issued.
+
+You can create and populate that `~/.emolt` using a text editors, or you can create using the provided function `set_data_path()`. Here is how the author created his own...
+
+```
+library(emolt)
+emolt::set_data_path("/mnt/ecocast/coredata/emolt)
+```
+
+That's it.  If you ever move the data you'll have to modify the contents of this hidden text file.
+
+## Fectching Data
+
+Once you have the hiddent file set up.  It is easy to fetch the entire dataset.  It includes data going back a number of years with a file for dissolved oxygen (`do`) and a file for temperature (`temp`)
+
+```{r}
+suppressPackageStartupMessages({
+  library(rnaturalearth)
+  library(emolt)
+  library(sf)
+  library(ggplot2)
+  library(dplyr)
+})
+```
+
+A single function will fetch the entire dataset for DO and temperature.  Accepting the 
+default arguments places a gzipped CSV file into your data directory under the `raw` subdirectory.
+
+```
+fetch_do()
+fetch_temp()
+```
+
+We don't know the update schedule, but for now assume monthly or a longer interval.  Updating your data may be best done by simply reruning the `fetch_*` functions.
+
+## Read the data
+
+```{r}
+do <- read_emolt(what = "do", form = "raw")
+do
+```
+
+```{r}
+ggplot(data = filter(do, tow_id == "10970"), 
+       mapping = aes(x = time, y = DO, color = tow_id)) +
+  geom_line()
+```
+
+
+
+```{r}
+temp = read_emolt(what = "temp", form = "raw")
+temp
+```
+
+
+```{r}
+ggplot(data = filter(temp, tow_id == "5") ,
+       mapping = aes(x = time, y = depth, color = temperature, shape = segment_type)) +
+  geom_point() + 
+  scale_y_reverse()
+```
+
+## Cast as spatial data
+
+```{r}
+dos = do |>
+  filter(between(latitude,30, 50)) |>
+  raw_as_sf() |>
+  dplyr::group_by(tow_id) |>
+  dplyr::slice_head(n=1)
+```
+
+```{r}
+coast = ne_coastline(scale = "medium", returnclass = "sf")
+plot(dos['sensor_type'], axes = TRUE, pch = ".", reset = FALSE)
+plot(st_geometry(coast), add = TRUE)
+```
