@@ -2,7 +2,7 @@ emolt
 ================
 
 [eMOLT](https://erddap.emolt.net/erddap/info/index.html?page=1&itemsPerPage=1000)
-sata served via ERRDAP.
+data served via ERRDAP.
 
 ## Requirements
 
@@ -41,7 +41,7 @@ the author created his own…
 That’s it. If you ever move the data you’ll have to modify the contents
 of this hidden text file.
 
-## Fectching Data
+## Fetching Data
 
 Once you have the hiddent file set up. It is easy to fetch the entire
 dataset. It includes data going back a number of years with a file for

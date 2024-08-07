@@ -4,7 +4,7 @@ output: github_document
 ---
 
 
-[eMOLT](https://erddap.emolt.net/erddap/info/index.html?page=1&itemsPerPage=1000) sata served via ERRDAP.
+[eMOLT](https://erddap.emolt.net/erddap/info/index.html?page=1&itemsPerPage=1000) data served via ERRDAP.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -39,7 +39,7 @@ emolt::set_data_path("/mnt/ecocast/coredata/emolt)
 
 That's it.  If you ever move the data you'll have to modify the contents of this hidden text file.
 
-## Fectching Data
+## Fetching Data
 
 Once you have the hiddent file set up.  It is easy to fetch the entire dataset.  It includes data going back a number of years with a file for dissolved oxygen (`do`) and a file for temperature (`temp`)
 
