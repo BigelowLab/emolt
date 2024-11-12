@@ -65,12 +65,12 @@ We don't know the update schedule, but for now assume monthly or a longer interv
 
 ## Read the data
 
-```{r}
+```{r, warning = FALSE}
 do <- read_emolt(what = "do", form = "raw")
 do
 ```
 
-```{r}
+```{r, warning = FALSE}
 tow_id1 = dplyr::count(do, tow_id) |>
   dplyr::arrange(desc(n)) |>
   dplyr::slice(1) |>
@@ -82,13 +82,13 @@ ggplot(data = filter(do, tow_id == tow_id1),
 
 
 
-```{r}
+```{r, warning = FALSE}
 temp = read_emolt(what = "temp", form = "raw")
 temp
 ```
 
 
-```{r}
+```{r, warning = FALSE}
 ggplot(data = filter(temp, tow_id == "5") ,
        mapping = aes(x = time, y = depth, color = temperature, shape = segment_type)) +
   geom_point() + 
@@ -97,7 +97,7 @@ ggplot(data = filter(temp, tow_id == "5") ,
 
 ## Cast as spatial data
 
-```{r}
+```{r, warning = FALSE}
 dos = do |>
   filter(between(latitude,30, 50)) |>
   raw_as_sf() |>
@@ -105,8 +105,8 @@ dos = do |>
   dplyr::slice_head(n=1)
 ```
 
-```{r}
+```{r, warning = FALSE}
 coast = ne_coastline(scale = "medium", returnclass = "sf")
-plot(dos['sensor_type'], axes = TRUE, pch = ".", reset = FALSE)
+plot(dos['sensor_type'], axes = TRUE, pch = 1, reset = FALSE)
 plot(st_geometry(coast), add = TRUE)
 ```

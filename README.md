@@ -75,30 +75,31 @@ do <- read_emolt(what = "do", form = "raw")
 do
 ```
 
-    ## # A tibble: 579,488 × 9
+    ## # A tibble: 579,642 × 9
     ##    tow_id time                latitude longitude temperature    DO DO_percentage
     ##    <chr>  <dttm>                 <dbl>     <dbl>       <dbl> <dbl>         <dbl>
-    ##  1 136    2023-08-10 21:35:59     44.1     -68.7        26.6   NaN          96.6
-    ##  2 136    2023-08-10 21:50:59     44.1     -68.7        25.6   NaN          97.6
-    ##  3 136    2023-08-10 22:05:59     44.1     -68.7        27.2   NaN          98.0
-    ##  4 136    2023-08-10 22:20:59     44.1     -68.7        26.8   NaN          98.0
-    ##  5 136    2023-08-10 22:35:59     44.1     -68.7        26.2   NaN          98.0
-    ##  6 136    2023-08-10 22:50:59     44.1     -68.7        25.6   NaN          98.1
-    ##  7 136    2023-08-10 23:05:59     44.1     -68.7        25.0   NaN          98.0
-    ##  8 136    2023-08-10 23:20:59     44.1     -68.7        24.4   NaN          98.2
-    ##  9 136    2023-08-10 23:35:59     44.1     -68.7        23.8   NaN          97.8
-    ## 10 136    2023-08-10 23:50:59     44.1     -68.7        23.2   NaN          97.8
-    ## # ℹ 579,478 more rows
+    ##  1 136    2023-08-10 21:35:59     44.1     -68.7        26.6  7.76          96.6
+    ##  2 136    2023-08-10 21:50:59     44.1     -68.7        25.6  7.98          97.6
+    ##  3 136    2023-08-10 22:05:59     44.1     -68.7        27.2  7.77          98.0
+    ##  4 136    2023-08-10 22:20:59     44.1     -68.7        26.8  7.82          98.0
+    ##  5 136    2023-08-10 22:35:59     44.1     -68.7        26.2  7.92          98.0
+    ##  6 136    2023-08-10 22:50:59     44.1     -68.7        25.6  8.01          98.1
+    ##  7 136    2023-08-10 23:05:59     44.1     -68.7        25.0  8.1           98.0
+    ##  8 136    2023-08-10 23:20:59     44.1     -68.7        24.4  8.2           98.2
+    ##  9 136    2023-08-10 23:35:59     44.1     -68.7        23.8  8.26          97.8
+    ## 10 136    2023-08-10 23:50:59     44.1     -68.7        23.2  8.36          97.8
+    ## # ℹ 579,632 more rows
     ## # ℹ 2 more variables: water_detect_perc <dbl>, sensor_type <chr>
 
 ``` r
-ggplot(data = filter(do, tow_id == "10970"), 
+tow_id1 = dplyr::count(do, tow_id) |>
+  dplyr::arrange(desc(n)) |>
+  dplyr::slice(1) |>
+  dplyr::pull(tow_id)
+ggplot(data = filter(do, tow_id == tow_id1), 
        mapping = aes(x = time, y = DO, color = tow_id)) +
   geom_line()
 ```
-
-    ## Warning: Removed 1888 rows containing missing values or values outside the scale range
-    ## (`geom_line()`).
 
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
@@ -144,7 +145,7 @@ dos = do |>
 
 ``` r
 coast = ne_coastline(scale = "medium", returnclass = "sf")
-plot(dos['sensor_type'], axes = TRUE, pch = ".", reset = FALSE)
+plot(dos['sensor_type'], axes = TRUE, pch = 1, reset = FALSE)
 plot(st_geometry(coast), add = TRUE)
 ```
 
