@@ -57,9 +57,9 @@ suppressPackageStartupMessages({
 })
 ```
 
-A single function will fetch the entire dataset for DO and temperature.
-Accepting the default arguments places a gzipped CSV file into your data
-directory under the `raw` subdirectory.
+A single function will fetch the entire dataset for DO and for
+temperature. Accepting the default arguments places a gzipped CSV file
+into your data directory under the `raw` subdirectory.
 
     fetch_do()
     fetch_temp()
@@ -75,20 +75,20 @@ do <- read_emolt(what = "do", form = "raw")
 do
 ```
 
-    ## # A tibble: 5,367,225 × 9
+    ## # A tibble: 579,488 × 9
     ##    tow_id time                latitude longitude temperature    DO DO_percentage
     ##    <chr>  <dttm>                 <dbl>     <dbl>       <dbl> <dbl>         <dbl>
-    ##  1 11455  2022-01-04 04:01:00     41.8     -70.5       -5.43   NaN           NaN
-    ##  2 11455  2022-01-04 04:02:00     41.8     -70.5       -5.45   NaN           NaN
-    ##  3 11455  2022-01-04 04:03:00     41.8     -70.5       -5.48   NaN           NaN
-    ##  4 11455  2022-01-04 04:04:00     41.8     -70.5       -5.51   NaN           NaN
-    ##  5 11455  2022-01-04 04:05:00     41.8     -70.5       -5.53   NaN           NaN
-    ##  6 11455  2022-01-04 04:06:00     41.8     -70.5       -5.56   NaN           NaN
-    ##  7 11455  2022-01-04 04:07:00     41.8     -70.5       -5.58   NaN           NaN
-    ##  8 11455  2022-01-04 04:08:00     41.8     -70.5       -5.61   NaN           NaN
-    ##  9 11455  2022-01-04 04:09:00     41.8     -70.5       -5.63   NaN           NaN
-    ## 10 11455  2022-01-04 04:10:00     41.8     -70.5       -5.66   NaN           NaN
-    ## # ℹ 5,367,215 more rows
+    ##  1 136    2023-08-10 21:35:59     44.1     -68.7        26.6   NaN          96.6
+    ##  2 136    2023-08-10 21:50:59     44.1     -68.7        25.6   NaN          97.6
+    ##  3 136    2023-08-10 22:05:59     44.1     -68.7        27.2   NaN          98.0
+    ##  4 136    2023-08-10 22:20:59     44.1     -68.7        26.8   NaN          98.0
+    ##  5 136    2023-08-10 22:35:59     44.1     -68.7        26.2   NaN          98.0
+    ##  6 136    2023-08-10 22:50:59     44.1     -68.7        25.6   NaN          98.1
+    ##  7 136    2023-08-10 23:05:59     44.1     -68.7        25.0   NaN          98.0
+    ##  8 136    2023-08-10 23:20:59     44.1     -68.7        24.4   NaN          98.2
+    ##  9 136    2023-08-10 23:35:59     44.1     -68.7        23.8   NaN          97.8
+    ## 10 136    2023-08-10 23:50:59     44.1     -68.7        23.2   NaN          97.8
+    ## # ℹ 579,478 more rows
     ## # ℹ 2 more variables: water_detect_perc <dbl>, sensor_type <chr>
 
 ``` r
@@ -97,6 +97,9 @@ ggplot(data = filter(do, tow_id == "10970"),
   geom_line()
 ```
 
+    ## Warning: Removed 1888 rows containing missing values or values outside the scale range
+    ## (`geom_line()`).
+
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
@@ -104,7 +107,7 @@ temp = read_emolt(what = "temp", form = "raw")
 temp
 ```
 
-    ## # A tibble: 9,166,234 × 8
+    ## # A tibble: 12,240,640 × 8
     ##    tow_id segment_type  time                latitude longitude depth temperature
     ##    <chr>  <chr>         <dttm>                 <dbl>     <dbl> <dbl>       <dbl>
     ##  1 5      Profiling Do… 2023-08-01 15:59:50     43.9     -69.6   2.4        23.9
@@ -117,7 +120,7 @@ temp
     ##  8 5      Profiling Do… 2023-08-01 15:59:58     43.9     -69.6  17.2        25.1
     ##  9 5      Profiling Do… 2023-08-01 16:00:03     43.9     -69.6  23.9        25.5
     ## 10 5      Profiling Do… 2023-08-01 16:00:04     43.9     -69.6  26.2        25.6
-    ## # ℹ 9,166,224 more rows
+    ## # ℹ 12,240,630 more rows
     ## # ℹ 1 more variable: sensor_type <chr>
 
 ``` r

@@ -2,12 +2,12 @@
 % Please edit documentation in R/io.R
 \name{read_emolt}
 \alias{read_emolt}
-\alias{read_errdap_raw}
+\alias{read_erddap_raw}
 \title{Read an ERRDAP data}
 \usage{
 read_emolt(what = c("do", "temp")[2], form = c("raw", "sf")[2])
 
-read_errdap_raw(filename)
+read_erddap_raw(filename)
 }
 \arguments{
 \item{what}{char, one of "do" or "temp"}
@@ -19,7 +19,7 @@ tibble or sf table
 }
 \description{
 \itemize{
-\item \code{read_errdap_raw} reads the downloaded data
-\item \code{read_errdap_sf} reads the sf formatted data
+\item \code{read_erddap_raw} reads the downloaded data
+\item \code{read_erddap_sf} reads the sf formatted data
 }
 }

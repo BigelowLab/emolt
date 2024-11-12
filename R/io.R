@@ -1,7 +1,7 @@
 #' Read an ERRDAP data
 #' 
-#' * `read_errdap_raw` reads the downloaded data
-#' * `read_errdap_sf` reads the sf formatted data
+#' * `read_erddap_raw` reads the downloaded data
+#' * `read_erddap_sf` reads the sf formatted data
 #' 
 #' @export
 #' @param what char, one of "do" or "temp"
@@ -12,7 +12,7 @@ read_emolt = function(what = c("do", "temp")[2],
   filename = paste0("emolt_", what[1], ".csv.gz")
   filename = emolt_path("raw", filename)
   
-  x = read_errdap_raw(filename)
+  x = read_erddap_raw(filename)
   if (tolower(form[1]) == "sf"){
     u = attr(x, "emolt_units")
     x = sf::st_as_sf(x, coords = c("longitude", "latitude"), crs = 4326)
@@ -25,7 +25,7 @@ read_emolt = function(what = c("do", "temp")[2],
 
 #' @export
 #' @rdname read_emolt
-read_errdap_raw = function(filename){
+read_erddap_raw = function(filename){
   
   hdr = readLines(filename, n = 2) |>
     strsplit(",", fixed = TRUE)

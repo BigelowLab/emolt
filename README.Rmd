@@ -53,7 +53,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-A single function will fetch the entire dataset for DO and temperature.  Accepting the 
+A single function will fetch the entire dataset for DO and for temperature.  Accepting the 
 default arguments places a gzipped CSV file into your data directory under the `raw` subdirectory.
 
 ```
@@ -71,7 +71,11 @@ do
 ```
 
 ```{r}
-ggplot(data = filter(do, tow_id == "10970"), 
+tow_id1 = dplyr::count(do, tow_id) |>
+  dplyr::arrange(desc(n)) |>
+  dplyr::slice(1) |>
+  dplyr::pull(tow_id)
+ggplot(data = filter(do, tow_id == tow_id1), 
        mapping = aes(x = time, y = DO, color = tow_id)) +
   geom_line()
 ```
